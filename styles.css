@@ -1,6 +1,10 @@
 :root {
-  color-scheme: light dark;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #f8fafc;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
@@ -8,71 +12,66 @@ body {
   min-height: 100vh;
   display: grid;
   place-items: center;
-  background: linear-gradient(160deg, #16213e, #1a1a2e);
-  color: #f5f5f5;
+  background: radial-gradient(circle at top, #1d3557, #0b1320 65%);
 }
 
-.game {
-  width: min(92vw, 520px);
-  padding: 2rem;
-  border-radius: 1rem;
+.app {
+  width: min(94vw, 760px);
+  padding: 1.5rem;
+  border-radius: 0.9rem;
   background: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(2px);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.35);
 }
 
-h1,
-h2 {
-  margin-top: 0;
+h1 {
+  margin: 0 0 0.2rem;
 }
 
-.instructions {
-  margin-bottom: 1rem;
+.subtitle {
+  margin: 0 0 1rem;
+  color: #cbd5e1;
 }
 
-.choices {
+.controls {
   display: flex;
-  gap: 0.75rem;
-  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-bottom: 0.7rem;
 }
 
 button {
   border: 0;
-  border-radius: 0.6rem;
-  padding: 0.7rem 0.9rem;
-  font-size: 1rem;
+  border-radius: 0.55rem;
+  padding: 0.55rem 0.9rem;
+  color: #f8fafc;
+  background: #1d4ed8;
   cursor: pointer;
-  background: #0f3460;
-  color: #f5f5f5;
+  font-weight: 600;
 }
 
-button:hover:not(:disabled) {
-  background: #1f5f9b;
+button:hover {
+  background: #2563eb;
 }
 
-button:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
+button[aria-pressed="true"] {
+  background: #9333ea;
 }
 
-.scoreboard,
-.results {
-  margin-bottom: 1rem;
-  padding: 0.8rem;
-  border-radius: 0.5rem;
-  background: rgba(0, 0, 0, 0.2);
+.grid-size {
+  margin: 0 0 0.8rem;
+  color: #e2e8f0;
 }
 
-.scoreboard p,
-.results p {
-  margin: 0.35rem 0;
+.board {
+  display: grid;
+  width: min(84vw, 620px);
+  height: min(84vw, 620px);
+  background: #f8fafc;
+  border: 2px solid #94a3b8;
+  margin: 0 auto;
 }
 
-.reset {
-  width: 100%;
-  background: #e94560;
-}
-
-.reset:hover:not(:disabled) {
-  background: #ff5f7a;
+.cell {
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
 }
