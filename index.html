@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rock Paper Scissors</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="game">
+      <h1>Rock Paper Scissors</h1>
+      <p class="instructions">First to 5 points wins. Choose your move:</p>
+
+      <div class="choices" role="group" aria-label="Choose rock, paper, or scissors">
+        <button type="button" data-choice="rock">🪨 Rock</button>
+        <button type="button" data-choice="paper">📄 Paper</button>
+        <button type="button" data-choice="scissors">✂️ Scissors</button>
+      </div>
+
+      <section class="scoreboard" aria-live="polite">
+        <h2>Score</h2>
+        <p>You: <span id="human-score">0</span></p>
+        <p>Computer: <span id="computer-score">0</span></p>
+      </section>
+
+      <section class="results" aria-live="polite">
+        <h2>Round Result</h2>
+        <p id="round-result">Make a choice to start the game.</p>
+        <p id="game-result"></p>
+      </section>
+
+      <button id="reset" type="button" class="reset">Reset Game</button>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
