@@ -3,33 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Rock Paper Scissors</title>
+    <title>Etch-a-Sketch</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <main class="game">
-      <h1>Rock Paper Scissors</h1>
-      <p class="instructions">First to 5 points wins. Choose your move:</p>
+    <main class="app">
+      <h1>Etch-a-Sketch</h1>
+      <p class="subtitle">Hover over the grid to draw.</p>
 
-      <div class="choices" role="group" aria-label="Choose rock, paper, or scissors">
-        <button type="button" data-choice="rock">🪨 Rock</button>
-        <button type="button" data-choice="paper">📄 Paper</button>
-        <button type="button" data-choice="scissors">✂️ Scissors</button>
+      <div class="controls">
+        <button id="resize" type="button">Resize Grid</button>
+        <button id="clear" type="button">Clear</button>
+        <button id="rainbow" type="button" aria-pressed="false">Rainbow: Off</button>
       </div>
 
-      <section class="scoreboard" aria-live="polite">
-        <h2>Score</h2>
-        <p>You: <span id="human-score">0</span></p>
-        <p>Computer: <span id="computer-score">0</span></p>
-      </section>
-
-      <section class="results" aria-live="polite">
-        <h2>Round Result</h2>
-        <p id="round-result">Make a choice to start the game.</p>
-        <p id="game-result"></p>
-      </section>
-
-      <button id="reset" type="button" class="reset">Reset Game</button>
+      <p class="grid-size" id="grid-size" aria-live="polite">Grid: 16 × 16</p>
+      <section class="board" id="board" aria-label="Drawing board"></section>
     </main>
 
     <script src="script.js"></script>

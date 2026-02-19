@@ -1,99 +1,77 @@
-const CHOICES = ["rock", "paper", "scissors"];
-const WINNING_SCORE = 5;
+const DEFAULT_SIZE = 16;
+const MAX_SIZE = 100;
 
-let humanScore = 0;
-let computerScore = 0;
-let gameOver = false;
+const board = document.querySelector("#board");
+const resizeButton = document.querySelector("#resize");
+const clearButton = document.querySelector("#clear");
+const rainbowButton = document.querySelector("#rainbow");
+const gridSizeLabel = document.querySelector("#grid-size");
 
-const humanScoreEl = document.querySelector("#human-score");
-const computerScoreEl = document.querySelector("#computer-score");
-const roundResultEl = document.querySelector("#round-result");
-const gameResultEl = document.querySelector("#game-result");
-const choiceButtons = document.querySelectorAll(".choices button");
-const resetButton = document.querySelector("#reset");
+let currentSize = DEFAULT_SIZE;
+let rainbowMode = false;
 
-function getComputerChoice() {
-  const randomIndex = Math.floor(Math.random() * CHOICES.length);
-  return CHOICES[randomIndex];
+function randomColor() {
+  const r = Math.floor(Math.random() * 256);
+  const g = Math.floor(Math.random() * 256);
+  const b = Math.floor(Math.random() * 256);
+  return `rgb(${r}, ${g}, ${b})`;
 }
 
-function playRound(humanChoice, computerChoice) {
-  if (humanChoice === computerChoice) {
-    return `It's a tie! You both chose ${humanChoice}.`;
-  }
-
-  const humanWins =
-    (humanChoice === "rock" && computerChoice === "scissors") ||
-    (humanChoice === "paper" && computerChoice === "rock") ||
-    (humanChoice === "scissors" && computerChoice === "paper");
-
-  if (humanWins) {
-    humanScore += 1;
-    return `You win this round! ${capitalize(humanChoice)} beats ${computerChoice}.`;
-  }
-
-  computerScore += 1;
-  return `You lose this round! ${capitalize(computerChoice)} beats ${humanChoice}.`;
+function paintCell(event) {
+  const color = rainbowMode ? randomColor() : "#111827";
+  event.target.style.backgroundColor = color;
 }
 
-function capitalize(word) {
-  return word.charAt(0).toUpperCase() + word.slice(1);
+function updateGridSizeLabel() {
+  gridSizeLabel.textContent = `Grid: ${currentSize} × ${currentSize}`;
 }
 
-function updateScoreboard() {
-  humanScoreEl.textContent = humanScore;
-  computerScoreEl.textContent = computerScore;
+function createGrid(size) {
+  board.innerHTML = "";
+  board.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+  board.style.gridTemplateRows = `repeat(${size}, 1fr)`;
+
+  for (let i = 0; i < size * size; i += 1) {
+    const cell = document.createElement("div");
+    cell.classList.add("cell");
+    cell.addEventListener("mouseenter", paintCell);
+    board.appendChild(cell);
+  }
 }
 
-function checkForWinner() {
-  if (humanScore < WINNING_SCORE && computerScore < WINNING_SCORE) {
-    return;
-  }
-
-  gameOver = true;
-
-  if (humanScore === WINNING_SCORE) {
-    gameResultEl.textContent = "🎉 You won the game!";
-  } else {
-    gameResultEl.textContent = "🤖 The computer won the game!";
-  }
-
-  choiceButtons.forEach((button) => {
-    button.disabled = true;
+function clearGrid() {
+  const cells = board.querySelectorAll(".cell");
+  cells.forEach((cell) => {
+    cell.style.backgroundColor = "#ffffff";
   });
 }
 
-function handleChoiceClick(event) {
-  if (gameOver) {
+function resizeGrid() {
+  const input = prompt(`Enter grid size (1-${MAX_SIZE}):`, String(currentSize));
+  if (input === null) {
     return;
   }
 
-  const humanChoice = event.currentTarget.dataset.choice;
-  const computerChoice = getComputerChoice();
+  const parsedSize = Number.parseInt(input, 10);
+  if (Number.isNaN(parsedSize) || parsedSize < 1 || parsedSize > MAX_SIZE) {
+    alert(`Please enter a whole number between 1 and ${MAX_SIZE}.`);
+    return;
+  }
 
-  const resultMessage = playRound(humanChoice, computerChoice);
-  roundResultEl.textContent = resultMessage;
-
-  updateScoreboard();
-  checkForWinner();
+  currentSize = parsedSize;
+  createGrid(currentSize);
+  updateGridSizeLabel();
 }
 
-function resetGame() {
-  humanScore = 0;
-  computerScore = 0;
-  gameOver = false;
-
-  updateScoreboard();
-  roundResultEl.textContent = "Make a choice to start the game.";
-  gameResultEl.textContent = "";
-
-  choiceButtons.forEach((button) => {
-    button.disabled = false;
-  });
+function toggleRainbowMode() {
+  rainbowMode = !rainbowMode;
+  rainbowButton.setAttribute("aria-pressed", String(rainbowMode));
+  rainbowButton.textContent = rainbowMode ? "Rainbow: On" : "Rainbow: Off";
 }
 
-choiceButtons.forEach((button) => {
-  button.addEventListener("click", handleChoiceClick);
-});
+resizeButton.addEventListener("click", resizeGrid);
+clearButton.addEventListener("click", clearGrid);
+rainbowButton.addEventListener("click", toggleRainbowMode);
 
-resetButton.addEventListener("click", resetGame);
+createGrid(currentSize);
+updateGridSizeLabel();
